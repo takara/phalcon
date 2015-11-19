@@ -13,7 +13,7 @@ RUN apt-get -y install php5-dev php5-mysql gcc libpcre3-dev
 RUN apt-get -y install vim curl chkconfig
 
 # phalconインストール
-RUN git clone --depth=1 https://github.com/phalcon/cphalcon.git -b phalcon-v2.08
+RUN git clone --depth=1 https://github.com/phalcon/cphalcon.git -b phalcon-v2.0.8
 WORKDIR /root/cphalcon/build/64bits
 RUN phpize && ./configure CFLAS="-02 -g" && make install
 
