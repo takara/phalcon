@@ -6,11 +6,8 @@ WORKDIR /root/
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update
-RUN apt-get -y install wget net-tools
-RUN apt-get -y install git make
-RUN apt-get -y install php5 apache2
-RUN apt-get -y install php5-dev php5-mysql gcc libpcre3-dev
-RUN apt-get -y install vim curl chkconfig
+RUN apt-get -y install wget net-tools git make php5 apache2 \
+	php5-dev php5-mysql vim curl chkconfig gcc libpcre3-dev 
 
 # phalconインストール
 RUN \
