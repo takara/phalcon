@@ -1,21 +1,20 @@
 FROM debian:7.9
 
-MAINTAINER takara
+MAINTAINER taka2063
 
 WORKDIR /root/
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update
-RUN apt-get -y install wget net-tools
-RUN apt-get -y install git make
-RUN apt-get -y install php5 apache2
-RUN apt-get -y install php5-dev php5-mysql gcc libpcre3-dev
-RUN apt-get -y install vim curl chkconfig
+RUN apt-get -y install wget net-tools git make php5 apache2 \
+	php5-dev php5-mysql vim curl chkconfig gcc libpcre3-dev 
 
 # phalconインストール
-RUN git clone --depth=1 https://github.com/phalcon/cphalcon.git -b phalcon-v2.0.8
-WORKDIR /root/cphalcon/build/64bits
-RUN phpize && ./configure CFLAS="-02 -g" && make install
+RUN \
+	git clone --depth=1 https://github.com/phalcon/cphalcon.git -b phalcon-v2.0.8 && \
+	cd /root/cphalcon/build/64bits && \
+	phpize && ./configure CFLAS="-02 -g" && make install && \
+	rm -rf /root/cphalcon
 
 # phalcon設定
 COPY asset/phalcon.ini /etc/php5/mods-available/
@@ -26,14 +25,22 @@ RUN curl -s http://getcomposer.org/installer | php
 RUN chmod +x composer.phar
 RUN mv composer.phar /usr/local/bin/composer
 
-# phalcon devtools
+# box
 WORKDIR /root/
-RUN git clone https://github.com/phalcon/phalcon-devtools.git
-WORKDIR /root/phalcon-devtools
-RUN composer install
-RUN ln -s /root/phalcon-devtools/phalcon.php /usr/bin/phalcon
-RUN chmod ugo+x /usr/bin/phalcon
-RUN ln -s /var/www/sample1/vendor/bin/phpunit /usr/local/bin/
+RUN curl -LSs https://box-project.github.io/box2/installer.php | php
+RUN mv box.phar /usr/local/bin/box
+
+# phalcon devtools
+RUN \
+	git clone https://github.com/phalcon/phalcon-devtools.git && \
+	cd /root/phalcon-devtools && \
+	composer install && \
+	sed -i -e '8,18d' box.json && \
+	echo "phar.readonly = Off" >> /etc/php5/cli/php.ini && \
+	box build && \
+	mv phalcon.phar /usr/local/bin/phalcon && \
+	chmod +x /usr/local/bin/phalcon && \
+	cd /root && rm -rf phalcon-devtools  
 
 # 設定ファイルコピー
 COPY asset/apache2.conf /etc/apache2/
