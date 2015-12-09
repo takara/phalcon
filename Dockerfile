@@ -32,7 +32,7 @@ RUN mv box.phar /usr/local/bin/box
 
 # phalcon devtools
 RUN \
-	git clone https://github.com/phalcon/phalcon-devtools.git && \
+	git clone https://github.com/phalcon/phalcon-devtools.git -b v2.0.9 && \
 	cd /root/phalcon-devtools && \
 	composer install && \
 	sed -i -e '8,18d' box.json && \
