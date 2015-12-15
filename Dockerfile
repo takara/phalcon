@@ -42,6 +42,11 @@ RUN \
 	chmod +x /usr/local/bin/phalcon && \
 	cd /root && rm -rf phalcon-devtools  
 
+# phpunit
+RUN wget https://phar.phpunit.de/phpunit.phar && \
+	chmod +x phpunit.phar && \
+	mv phpunit.phar /usr/local/bin/phpunit
+
 # 設定ファイルコピー
 COPY asset/apache2.conf /etc/apache2/
 COPY asset/default /etc/apache2/sites-available/
