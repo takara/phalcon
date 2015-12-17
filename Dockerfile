@@ -43,9 +43,8 @@ RUN \
 	cd /root && rm -rf phalcon-devtools  
 
 # phpunit
-RUN wget https://phar.phpunit.de/phpunit.phar && \
-	chmod +x phpunit.phar && \
-	mv phpunit.phar /usr/local/bin/phpunit
+RUN wget https://phar.phpunit.de/phpunit-4.8.19.phar -O /usr/local/bin/phpunit && \
+	chmod +x /usr/local/bin/phpunit
 
 # 設定ファイルコピー
 COPY asset/apache2.conf /etc/apache2/
