@@ -1,4 +1,4 @@
-FROM debian:7.9
+FROM debian:8.7
 
 MAINTAINER taka2063
 
@@ -13,7 +13,7 @@ RUN apt-get -y install wget net-tools git make php5 apache2 \
 RUN \
 	git clone --depth=1 https://github.com/phalcon/cphalcon.git -b v3.0.4 && \
 	cd /root/cphalcon/build && \
-	./install
+	./install && \
 	rm -rf /root/cphalcon
 
 # phalcon設定
