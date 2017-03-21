@@ -1,0 +1,12 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:          ttystop
+# Required-Start:
+# Required-Stop:
+# Should-Start:
+# Default-Start: 3 4 5
+# Default-Stop:
+# X-Interactive:     true
+# Short-Description: ttystop
+### END INIT INFO
+systemctl stop getty@tty1 getty@tty2 getty@tty3 getty@tty4 getty@tty5 getty@tty6

@@ -18,7 +18,8 @@ RUN \
 
 # phalcon設定
 COPY asset/phalcon.ini /etc/php5/mods-available/
-RUN ln -s /etc/php5/mods-available/phalcon.ini /etc/php5/conf.d/20-phalcon.ini
+RUN ln -s /etc/php5/mods-available/phalcon.ini /etc/php5/apache2/conf.d/20-phalcon.ini
+RUN ln -s /etc/php5/mods-available/phalcon.ini /etc/php5/cli/conf.d/20-phalcon.ini
 
 # composer
 RUN curl -s http://getcomposer.org/installer | php
@@ -31,16 +32,17 @@ RUN curl -LSs https://box-project.github.io/box2/installer.php | php
 RUN mv box.phar /usr/local/bin/box
 
 # phalcon devtools
+COPY asset/box.json /root/
 RUN \
-	git clone https://github.com/phalcon/phalcon-devtools.git -b v2.0.9 && \
+	git clone https://github.com/phalcon/phalcon-devtools.git -b v3.0.4 && \
 	cd /root/phalcon-devtools && \
+	mv /root/box.json . && \
 	composer install && \
-	sed -i -e '8,18d' box.json && \
 	echo "phar.readonly = Off" >> /etc/php5/cli/php.ini && \
 	box build && \
 	mv phalcon.phar /usr/local/bin/phalcon && \
 	chmod +x /usr/local/bin/phalcon && \
-	cd /root && rm -rf phalcon-devtools  
+	cd /root && rm -rf phalcon-devtools
 
 # phpunit
 #RUN wget https://phar.phpunit.de/phpunit-4.8.19.phar -O /usr/local/bin/phpunit && \
@@ -53,9 +55,10 @@ COPY asset/php.ini /etc/php5/apache2/
 RUN a2enmod rewrite
 RUN mkdir -p /var/log/phalcon && chown www-data.www-data /var/log/phalcon
 ENV DEBIAN_FRONTEND dialog
-
-# ttyコメントアウト
-RUN sed -i -e 's/^\([1-6]:.\+\)/#\1/g' /etc/inittab
+#
+# tty停止
+COPY asset/ttystop /etc/init.d/
+RUN chkconfig --add ttystop
 
 EXPOSE 80
 
