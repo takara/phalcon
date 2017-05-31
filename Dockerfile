@@ -34,7 +34,7 @@ RUN mv box.phar /usr/local/bin/box
 # phalcon devtools
 COPY asset/box.json /root/
 RUN \
-	git clone https://github.com/phalcon/phalcon-devtools.git -b v3.0.4 && \
+	git clone https://github.com/phalcon/phalcon-devtools.git -b v3.1.2 && \
 	cd /root/phalcon-devtools && \
 	mv /root/box.json . && \
 	composer install && \
