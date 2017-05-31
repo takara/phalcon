@@ -1,5 +1,5 @@
 NAME=phalcon
-VERSION=v3.0.4
+VERSION=v3.1.2
 DOCKER_RUN_OPTIONS= \
 	--privileged
 

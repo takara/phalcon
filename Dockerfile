@@ -11,7 +11,7 @@ RUN apt-get -y install wget net-tools git make php5 apache2 \
 
 # phalconインストール
 RUN \
-	git clone --depth=1 https://github.com/phalcon/cphalcon.git -b v3.0.4 && \
+	git clone --depth=1 https://github.com/phalcon/cphalcon.git -b v3.1.2 && \
 	cd /root/cphalcon/build && \
 	./install && \
 	rm -rf /root/cphalcon
