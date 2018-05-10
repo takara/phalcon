@@ -11,7 +11,7 @@ RUN apt-get -y install wget net-tools git make php5 apache2 \
 
 # phalconインストール
 RUN \
-	git clone --depth=1 https://github.com/phalcon/cphalcon.git -b v3.1.2 && \
+	git clone --depth=1 https://github.com/phalcon/cphalcon.git -b v3.3.2 && \
 	cd /root/cphalcon/build && \
 	./install && \
 	rm -rf /root/cphalcon
@@ -34,7 +34,7 @@ RUN mv box.phar /usr/local/bin/box
 # phalcon devtools
 COPY asset/box.json /root/
 RUN \
-	git clone https://github.com/phalcon/phalcon-devtools.git -b v3.1.2 && \
+	git clone https://github.com/phalcon/phalcon-devtools.git -b v3.2.13 && \
 	cd /root/phalcon-devtools && \
 	mv /root/box.json . && \
 	composer install && \
